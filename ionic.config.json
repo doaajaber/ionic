@@ -1,6 +1,8 @@
 {
   "name": "day22",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "ed57543a"
 }
