@@ -8,6 +8,7 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { HomePage } from './home.page';
 
 
+
 @NgModule({
   imports: [
     CommonModule,
