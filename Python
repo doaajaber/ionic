@@ -1,0 +1,19 @@
+import sys
+from py_translator import Translator
+from translate import Translator
+
+from PIL import Image
+import pytesseract 
+import goslate
+im = Image.open("20.PNG" )
+
+text = pytesseract.image_to_string (im , lang='hin')
+print(text)
+
+translator= Translator(from_lang="hin",to_lang="en")
+translation = translator.translate(text)
+print (translation)
+
+
+ 
+
