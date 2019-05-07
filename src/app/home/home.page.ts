@@ -70,7 +70,9 @@ this.selectedImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaYAAABkCAYA
     }
 
 
+
     getPicture(sourceType: PictureSourceType) {
+
 
 
         if (this.platform.is('cordova')) {
@@ -83,13 +85,6 @@ this.selectedImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaYAAABkCAYA
                 saveToPhotoAlbum: false,
                 correctOrientation: true
             }).then((imageData) => {
-                this.selectedImage = `data:image/jpeg;base64,${imageData}`;
-
-                this.http.post('http://127.0.0.1:5000/uploadimage', {imageData}).subscribe(result => {
-                    // get result here
-                    console.log(result);
-                });
-
             });
         } else {
             alert('cordova not available');
@@ -99,6 +94,18 @@ this.selectedImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaYAAABkCAYA
 
 
     async recognizeImage() {
+
+        const file = this.selectedImage
+        const formData = new FormData();
+        formData.append('file', file)
+        
+
+        this.http.post('http://127.0.0.1:5000/uploadimage',formData).subscribe(result => {
+            // this.imageText = result;
+            console.log(result);
+        });
+        
+        
         const loading = await this.loading.create({
             message: 'Recognizing...',
             spinner: 'lines', // lines, lines-small, dots, bubbles, circles, crescent
@@ -108,7 +115,6 @@ this.selectedImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaYAAABkCAYA
         this.tesseract.recognize(this.selectedImage)
             .progress(message => {
                 console.log(message);
-
                 if (message.status === 'recognizing text') {
                     // this.progress.set(message.progress);
                 }

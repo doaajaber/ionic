@@ -1,4 +1,5 @@
 import sys
+import os
 from py_translator import Translator
 from translate import Translator
 
@@ -9,33 +10,41 @@ import goslate
 from flask import Flask
 from flask_cors import CORS
 from flask import request
+# from flask import Response
 import json
-
+import base64
+from matplotlib import pyplot as plt
+import matplotlib.image as mpimg
+import numpy as np
+import io
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/uploadimage', methods=['POST'])
 def uploadimage():
-    uploadedFile = request.files['imageData']
 
-    uploadedFile.save('uploads/'+uploadedFile.filename)
+    fileData = request.form['file']
 
-    # Please check here if you get what ypu want then return 
+    i = base64.b64decode(fileData)
+    i = io.BytesIO(i)
+    imageFile = mpimg.imread(i, format='PNG')
 
-    # im = Image.open(urlpath)
+    imgpng = Image.fromarray(np.uint8(imageFile))
+    imgpng.save('img.png', 'PNG')
 
-    # text = pytesseract.image_to_string (im , lang='hin')
-    # print(text)
+    im = imgpng
+    text = pytesseract.image_to_string (im , lang='hin')
+    print(text)
 
-    # translator= Translator(from_lang="hin",to_lang="en")
-    # translation = translator.translate(text)
-    # print (translation)
+    translator= Translator(from_lang="hin",to_lang="en")
+    translation = translator.translate(text)
+    print (translation)
 
-    # return translation
+    print(translation)
 
     response = app.response_class(
-        # response=json.dumps(translation),
+        response=json.dumps(translation),
         status=200,
         mimetype='application/json'
     )
