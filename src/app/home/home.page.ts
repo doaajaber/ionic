@@ -101,7 +101,7 @@ this.selectedImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaYAAABkCAYA
         
 
         this.http.post('http://127.0.0.1:5000/uploadimage',formData).subscribe(result => {
-            // this.imageText = result;
+            this.imageText = result;
             console.log(result);
         });
         

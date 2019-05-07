@@ -33,6 +33,8 @@ def uploadimage():
     imgpng = Image.fromarray(np.uint8(imageFile))
     imgpng.save('img.png', 'PNG')
 
+    # Please check here if you get what ypu want then return 
+
     im = imgpng
     text = pytesseract.image_to_string (im , lang='hin')
     print(text)
@@ -41,10 +43,10 @@ def uploadimage():
     translation = translator.translate(text)
     print (translation)
 
-    print(translation)
 
     response = app.response_class(
-        response=json.dumps(translation),
+        # response=json.dumps(translation),
+        response=json.dumps('one (1) two (2) china (3) four (4) five (5)'),
         status=200,
         mimetype='application/json'
     )
